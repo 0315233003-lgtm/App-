@@ -1,33 +1,89 @@
 console.log("script started");
 // Function to hide all cards
-function hideAllCards() {
-    let cards = document.getElementsByClassName('recipe-card');
-    
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].style.display = 'none';
-    }
-}
-
-// Function to show all cards
-function showAllCards() {
-    let cards = document.getElementsByClassName('recipe-card');
-    
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].style.display = 'block';
-    }
-}
-
-let hiddenRecipes = [
+let recipes = [
+    {
+        title: "Creamy Pasta Carbonara",
+        rating: "4.8",
+        cookTime: "25 min",
+        image: "creamy_carbonara.jpg",
+        hidden: false
+    },
+    {
+        title: "Spicy Chicken Tikka Masala",
+        rating: "4.7",
+        cookTime: "45 min",
+        image: "tikkamasala.jpg",
+        hidden: false
+    },
+    {
+        title: "Rich Chocolate Cake",
+        rating: "4.9",
+        cookTime: "60 min",
+        image: "chocolatecake.jpg",
+        hidden: false
+    },
+    {
+        title: "Classic Caesar Salad",
+        rating: "4.6",
+        cookTime: "15 min",
+        image: "cesarsalad.jpg",
+        hidden: false
+    },
+    {
+        title: "Cajun Seafood Boil",
+        rating: "4.6",
+        cookTime: "15 min",
+        image: "seafood.jpg",
+        hidden: false
+    },
+    {
+        title: "Mexican Chicken Flautas",
+        rating: "4.6",
+        cookTime: "15 min",
+        image: "chicken-flautas.jpg",
+        hidden: false
+    },
     {
         title: "Birria Tacos",
         rating: "4.9",
-        image: "birriatacos.jpeg"
+        cookTime: "120 min",
+        image: "birriatacos.jpeg",
+        hidden: true
+    },
+    {
+        title: "Mango Sushi Roll",
+        rating: "4.3",
+        cookTime: "20 min",
+        image:"sushi.jpg",
+        hidden: true
+    },
+    {
+        title: "Italian Pizza",
+        rating: "5.0",
+        cookTime: "60 min",
+        image: "italian pizza.jpg",
+        hidden: true
+    },
+    {
+        title:"Fufu and Egusi",
+        rating: "4.8",
+        cookTime: "55 min",
+        image: "Egusi.jpg",
+        hidden: true
+
+    },
+    {
+        title: "Pupusa",
+        rating: "4.3",
+        cookTime: "30 min",
+        image: "pupusa.jpg",
+        hidden: true
     }
 ];
 
-function createHiddenRecipeCard(recipe) {
+function createRecipeCard(recipe) {
     let newCard = document.createElement('div');
-    newCard.className = 'recipe-card hidden-recipe';
+    newCard.className = 'recipe-card';
     
     let recipeImage = document.createElement('img');
     recipeImage.src = recipe.image;
@@ -50,11 +106,11 @@ function createHiddenRecipeCard(recipe) {
     
     let cookTimeSpan = document.createElement('span');
     cookTimeSpan.className = 'cook-time';
-    cookTimeSpan.innerText = "🕐 120 min";
+    cookTimeSpan.innerText = "🕐 " + recipe.cookTime;
     
-    recipeMeta.appendChild(4.9);
-    recipeMeta.appendChild("120 min");
-    recipeInfo.appendChild("Birria Tacos");
+    recipeMeta.appendChild(ratingSpan);
+    recipeMeta.appendChild(cookTimeSpan);
+    recipeInfo.appendChild(recipeTitle);
     recipeInfo.appendChild(recipeMeta);
     newCard.appendChild(recipeImage);
     newCard.appendChild(recipeInfo);
@@ -62,32 +118,57 @@ function createHiddenRecipeCard(recipe) {
     return newCard;
 }
 
-function searchRecipes() {
-    let searchBar = document.querySelector('.search-bar');
-    let searchText = searchBar.value.toLowerCase();
+function displayRecipes() {
+    let recipeGrid = document.querySelector('.recipe-grid');
     
-    if (searchText === "birria tacos" || searchText === "birria") {
-        // Hide all existing cards
-        hideAllCards();
-        
-        // Create and show the Birria Tacos card
-        let birriaRecipe = hiddenRecipes[0];
-        let birriaCard = createHiddenRecipeCard(birriaRecipe);
-        
-        // Add it to the recipe grid
-        let recipeGrid = document.querySelector('.recipe-grid');
-        recipeGrid.appendChild(birriaCard);
-    } else if (searchText === "") {
-        // If search is empty, show all original cards
-        showAllCards();
+    for (let i = 0; i < recipes.length; i++) {
+        if (recipes[i].hidden === false) {
+            let card = createRecipeCard(recipes[i]);
+            recipeGrid.appendChild(card);
+        }
     }
 }
+
+
+// Call this when the page loads
+displayRecipes(); 
 
 function setupSearch() {
     let searchButton = document.querySelector('.search-btn');
     searchButton.addEventListener('click', searchRecipes);
 }
+
 setupSearch();
 
+function searchRecipes() {
+    console.log("Search button clicked!");
+    
+    let searchBar = document.querySelector('.search-bar');
+    let searchText = searchBar.value.toLowerCase();
+    console.log("Search text:", searchText);
+    
+    // Clear the recipe grid
+    let recipeGrid = document.querySelector('.recipe-grid');
+    recipeGrid.innerText = '';
+    
+    // If search is empty, show only non-hidden recipes
+    if (searchText === '') {
+        displayRecipes();
+        return;
+    }
+    
+    // Loop through ALL recipes (including hidden ones)
+    for (let i = 0; i < recipes.length; i++) {
+        let recipeTitle = recipes[i].title.toLowerCase();
+        console.log("Checking recipe:", recipeTitle, "against search:", searchText);
+        
+        // Check if the recipe title includes the search text
+        if (recipeTitle.includes(searchText)) {
+            console.log("MATCH FOUND:", recipes[i].title);
+            let card = createRecipeCard(recipes[i]);
+            recipeGrid.appendChild(card);
+        }
+    }
+}
 
 
