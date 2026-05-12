@@ -89,25 +89,25 @@ let recipes = [
         cookTime: "30 min",
         image: "pupusa.jpg",
         hidden: true,
-        instructions:""
+        instructions:"Gently pat and press the ball into a round disc about 1/4th inch thick. Repeat with the remaining dough and cheese to make all 8 dough pockets. Heat a skillet over medium heat, once hot, spray with cooking spray. Cook for about 5-6 minutes per side until they’re golden brown and slightly charred. Place them on a wire rack to cool down while you are cooking the remaining pupusas."
     }
 ];
 
-function createRecipeCard(recipe) {
-    let newCard = document.createElement('div');
-    newCard.className = 'recipe-card';
+function createRecipeCard(recipe) {//creates card
+    let newCard = document.createElement('div'); ///creates new card container
+    newCard.className = 'recipe-card';//new div element so it can be used in css
     
-    let recipeImage = document.createElement('img');
-    recipeImage.src = recipe.image;
-    recipeImage.alt = recipe.title;
-    recipeImage.className = 'recipe-image';
+    let recipeImage = document.createElement('img');//creates img element
+    recipeImage.src = recipe.image;//sets the image sourse to the image file (like birriatacos.jpeg)
+    recipeImage.alt = recipe.title;//allows accesabilitly to the recipe titles
+    recipeImage.className = 'recipe-image';//names it recipe image 
     
-    let recipeInfo = document.createElement('div');
-    recipeInfo.className = 'recipe-info';
+    let recipeInfo = document.createElement('div');//creates div holding the recipe info
+    recipeInfo.className = 'recipe-info';//gives to class recipe info
     
     let recipeTitle = document.createElement('h3');
     recipeTitle.className = 'recipe-title';
-    recipeTitle.innerText = recipe.title;
+    recipeTitle.innerText = recipe.title;//gets info from array
     
     let recipeMeta = document.createElement('div');
     recipeMeta.className = 'recipe-meta';
@@ -130,9 +130,11 @@ function createRecipeCard(recipe) {
     recipeMeta.appendChild(cookTimeSpan);
     recipeInfo.appendChild(recipeTitle);
     recipeInfo.appendChild(recipeMeta);
+
     newCard.appendChild(recipeImage);
     newCard.appendChild(recipeInfo);
-    newCard.appendChild(instructionsDiv);
+    newCard.appendChild(instructionsDiv); 
+    //adds this info into main card
 
     newCard.addEventListener('mouseenter', showInstructions);
     newCard.addEventListener('mouseleave', hideInstructions);
@@ -194,14 +196,14 @@ function searchRecipes() {
     }
     
     // Loop through ALL recipes (including hidden ones)
-    for (let i = 0; i < recipes.length; i++) {
+    for (let i = 0; i < recipes.length; i++) { //starts making recipes(goes through each one)
         let recipeTitle = recipes[i].title.toLowerCase();
-        console.log("Checking recipe:", recipeTitle, "against search:", searchText);
+        console.log("Checking recipe:", recipeTitle, "against search:", searchText);//searches for recipes
         
         // Check if the recipe title includes the search text
-        if (recipeTitle.includes(searchText)) {
+        if (recipeTitle.includes(searchText)) { //searches for the right strings
             console.log("MATCH FOUND:", recipes[i].title);
-            let card = createRecipeCard(recipes[i]);
+            let card = createRecipeCard(recipes[i]);//looks through the create recipe card function and 
             recipeGrid.appendChild(card);
         }
     }
