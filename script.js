@@ -94,7 +94,7 @@ let recipes = [
 ];
 
 function createRecipeCard(recipe) {//creates card
-    let newCard = document.createElement('div'); ///creates new card container
+    let newCard = document.createElement('div'); //creates new card container
     newCard.className = 'recipe-card';//new div element so it can be used in css
     
     let recipeImage = document.createElement('img');//creates img element
@@ -107,8 +107,8 @@ function createRecipeCard(recipe) {//creates card
     
     let recipeTitle = document.createElement('h3');
     recipeTitle.className = 'recipe-title';
-    recipeTitle.innerText = recipe.title;//gets info from array
-    
+    recipeTitle.innerText = recipe.title;
+
     let recipeMeta = document.createElement('div');
     recipeMeta.className = 'recipe-meta';
     
@@ -128,8 +128,11 @@ function createRecipeCard(recipe) {//creates card
     
     recipeMeta.appendChild(ratingSpan);
     recipeMeta.appendChild(cookTimeSpan);
+    // Puts rating and cook time inside recipeMeta
+
     recipeInfo.appendChild(recipeTitle);
     recipeInfo.appendChild(recipeMeta);
+    // Puts title and recipeMeta inside recipeInfo
 
     newCard.appendChild(recipeImage);
     newCard.appendChild(recipeInfo);
@@ -137,6 +140,7 @@ function createRecipeCard(recipe) {//creates card
     //adds this info into main card
 
     newCard.addEventListener('mouseenter', showInstructions);
+
     newCard.addEventListener('mouseleave', hideInstructions);
     
     
@@ -172,18 +176,18 @@ function displayRecipes() {
 displayRecipes(); 
 
 function setupSearch() {
-    let searchButton = document.querySelector('.search-btn');
-    searchButton.addEventListener('click', searchRecipes);
+    let searchButton = document.querySelector('.search-btn'); //finds the search button element from your HTML and stores it in a variable.
+    searchButton.addEventListener('click', searchRecipes);//.................
 }
 
 setupSearch();
 
 function searchRecipes() {
-    console.log("Search button clicked!");
+    console.log("Search button clicked!");//prints to console
     
-    let searchBar = document.querySelector('.search-bar');
+    let searchBar = document.querySelector('.search-bar');//stores into search bar variable
     let searchText = searchBar.value.toLowerCase();
-    console.log("Search text:", searchText);
+    console.log("Search text:", searchText);//prints what user searched for into console
     
     // Clear the recipe grid
     let recipeGrid = document.querySelector('.recipe-grid');
@@ -196,14 +200,14 @@ function searchRecipes() {
     }
     
     // Loop through ALL recipes (including hidden ones)
-    for (let i = 0; i < recipes.length; i++) { //starts making recipes(goes through each one)
+    for (let i = 0; i < recipes.length; i++) { //starts checking recipes(goes through each one)
         let recipeTitle = recipes[i].title.toLowerCase();
-        console.log("Checking recipe:", recipeTitle, "against search:", searchText);//searches for recipes
+        console.log("Checking recipe:", recipeTitle, "against search:", searchText);//prints
         
         // Check if the recipe title includes the search text
-        if (recipeTitle.includes(searchText)) { //searches for the right strings
+        if (recipeTitle.includes(searchText)) { //searches for recipe
             console.log("MATCH FOUND:", recipes[i].title);
-            let card = createRecipeCard(recipes[i]);//looks through the create recipe card function and 
+            let card = createRecipeCard(recipes[i]);// calls the createRecipeCard function
             recipeGrid.appendChild(card);
         }
     }
